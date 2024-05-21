@@ -1,0 +1,14 @@
+.checkout-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.checkout-buttons .btn {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.checkout-buttons .btn:last-child {
+  margin-right: 0;
+}

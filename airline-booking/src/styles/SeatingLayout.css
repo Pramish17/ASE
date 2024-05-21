@@ -1,0 +1,68 @@
+.seating-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.seat-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.seat.aisle {
+  background-color: transparent;
+  border: none;
+  pointer-events: none;
+}
+
+.seat.first-class {
+  background-color: #007bff; /* Blue color for first class */
+}
+
+.seat.business-class {
+  background-color: #ff9800; /* Orange color for business class */
+}
+
+.seat.economy-class {
+  background-color: #4caf50; /* Green color for economy class */
+}
+
+.seat.locked {
+  background-color: #f44336; /* Red color for locked seats */
+  color: white;
+  cursor: not-allowed;
+}
+
+.seat.occupied {
+  background-color: #9e9e9e; /* Grey color for occupied seats */
+  color: white;
+  cursor: not-allowed;
+}
+
+.seat.selected {
+  background-color: #d4edda; /* Light green for selected seats */
+}
+
+.seat.available:hover {
+  background-color: #d4edda; /* Light green for hover on available seats */
+}
+
+.seat span {
+  font-size: 0.9rem;
+}
