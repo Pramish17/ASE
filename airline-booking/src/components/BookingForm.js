@@ -2,15 +2,15 @@ import React from 'react';
 
 const BookingForm = ({ bookingDetails }) => {
   return (
-    <div className="booking-form">
-      <h3>Booking Details</h3>
+    <div className="booking-form mb-4">
+      <h4>Booking Details:</h4>
       {bookingDetails.length === 0 ? (
         <p>No seats selected.</p>
       ) : (
-        <ul>
-          {bookingDetails.map((seat, index) => (
-            <li key={index}>
-              Seat: {seat.label}, Class: {seat.type.replace('-', ' ')}, Row: {seat.rowIndex + 1}, Column: {seat.seatIndex + 1}
+        <ul className="list-group">
+          {bookingDetails.map((detail, index) => (
+            <li key={index} className="list-group-item">
+              {detail.seat_label ? detail.seat_label.replace(/-/g, ' ') : 'Unknown Seat'} - {detail.seat_class.replace(/-/g, ' ')}
             </li>
           ))}
         </ul>

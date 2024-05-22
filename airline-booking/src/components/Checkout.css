@@ -1,92 +1,49 @@
-.checkout-container {
-  background: #f7f7f7;
-  padding: 40px;
-  border-radius: 10px;
-  max-width: 600px;
-  margin: 50px auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
+.checkout {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.checkout-container h2 {
-  font-size: 2.5em;
-  margin-bottom: 20px;
-  color: #333;
-  animation: fadeIn 1.5s ease-in-out;
+.selected-seats,
+.total-price {
+  margin-top: 20px;
 }
 
-.checkout-details {
-  margin-bottom: 30px;
-}
-
-.checkout-details p {
-  font-size: 1.2em;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.seats-list {
+.selected-seats ul {
   list-style-type: none;
   padding: 0;
 }
 
-.seats-list li {
-  background: #fff;
-  padding: 10px;
+.selected-seats li {
   margin-bottom: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  color: #333;
-  font-size: 1.1em;
-  animation: fadeIn 2s ease-in-out;
 }
 
-.total-price {
-  font-size: 1.5em;
-  margin-top: 20px;
-  color: #333;
-}
-
-.checkout-buttons {
-  display: flex;
-  justify-content: space-around;
+.card {
   margin-top: 20px;
 }
 
-.checkout-buttons .btn {
-  padding: 15px 30px;
-  font-size: 1.2em;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+.card-body {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.checkout-buttons .btn-success {
-  background: #28a745;
-  color: #fff;
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.checkout-buttons .btn-success:hover {
-  background: #218838;
+.card-text {
+  font-size: 1.1rem;
 }
 
-.checkout-buttons .btn-primary {
-  background: #007bff;
-  color: #fff;
-}
-
-.checkout-buttons .btn-primary:hover {
-  background: #0069d9;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.btn-block {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
 }

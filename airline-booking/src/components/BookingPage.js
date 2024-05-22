@@ -1,190 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DateSelector from './DateSelector';
 import TicketPrice from './TicketPrice';
 import BookingForm from './BookingForm';
 import SeatingPlanViewer from './SeatingPlanViewer';
-
-const initialLayout = [
-  // First Class (3 rows)
-  [
-    { label: '1A', type: 'first-class', status: 'available' },
-    { label: '1B', type: 'first-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '1C', type: 'first-class', status: 'available' },
-    { label: '1D', type: 'first-class', status: 'available' }
-  ],
-  [
-    { label: '2A', type: 'first-class', status: 'available' },
-    { label: '2B', type: 'first-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '2C', type: 'first-class', status: 'available' },
-    { label: '2D', type: 'first-class', status: 'available' }
-  ],
-  [
-    { label: '3A', type: 'first-class', status: 'available' },
-    { label: '3B', type: 'first-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '3C', type: 'first-class', status: 'available' },
-    { label: '3D', type: 'first-class', status: 'available' }
-  ],
-  // Business Class (4 rows)
-  [
-    { label: '4A', type: 'business-class', status: 'available' },
-    { label: '4B', type: 'business-class', status: 'available' },
-    { label: '4C', type: 'business-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '4D', type: 'business-class', status: 'available' },
-    { label: '4E', type: 'business-class', status: 'available' },
-    { label: '4F', type: 'business-class', status: 'available' }
-  ],
-  [
-    { label: '5A', type: 'business-class', status: 'available' },
-    { label: '5B', type: 'business-class', status: 'available' },
-    { label: '5C', type: 'business-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '5D', type: 'business-class', status: 'available' },
-    { label: '5E', type: 'business-class', status: 'available' },
-    { label: '5F', type: 'business-class', status: 'available' }
-  ],
-  [
-    { label: '6A', type: 'business-class', status: 'available' },
-    { label: '6B', type: 'business-class', status: 'available' },
-    { label: '6C', type: 'business-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '6D', type: 'business-class', status: 'available' },
-    { label: '6E', type: 'business-class', status: 'available' },
-    { label: '6F', type: 'business-class', status: 'available' }
-  ],
-  [
-    { label: '7A', type: 'business-class', status: 'available' },
-    { label: '7B', type: 'business-class', status: 'available' },
-    { label: '7C', type: 'business-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '7D', type: 'business-class', status: 'available' },
-    { label: '7E', type: 'business-class', status: 'available' },
-    { label: '7F', type: 'business-class', status: 'available' }
-  ],
-  // Economy Class (12 rows + 1 extra row)
-  [
-    { label: '8A', type: 'economy-class', status: 'available' },
-    { label: '8B', type: 'economy-class', status: 'available' },
-    { label: '8C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '8D', type: 'economy-class', status: 'available' },
-    { label: '8E', type: 'economy-class', status: 'available' },
-    { label: '8F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '9A', type: 'economy-class', status: 'available' },
-    { label: '9B', type: 'economy-class', status: 'available' },
-    { label: '9C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '9D', type: 'economy-class', status: 'available' },
-    { label: '9E', type: 'economy-class', status: 'available' },
-    { label: '9F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '10A', type: 'economy-class', status: 'available' },
-    { label: '10B', type: 'economy-class', status: 'available' },
-    { label: '10C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '10D', type: 'economy-class', status: 'available' },
-    { label: '10E', type: 'economy-class', status: 'available' },
-    { label: '10F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '11A', type: 'economy-class', status: 'available' },
-    { label: '11B', type: 'economy-class', status: 'available' },
-    { label: '11C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '11D', type: 'economy-class', status: 'available' },
-    { label: '11E', type: 'economy-class', status: 'available' },
-    { label: '11F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '12A', type: 'economy-class', status: 'available' },
-    { label: '12B', type: 'economy-class', status: 'available' },
-    { label: '12C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '12D', type: 'economy-class', status: 'available' },
-    { label: '12E', type: 'economy-class', status: 'available' },
-    { label: '12F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '13A', type: 'economy-class', status: 'available' },
-    { label: '13B', type: 'economy-class', status: 'available' },
-    { label: '13C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '13D', type: 'economy-class', status: 'available' },
-    { label: '13E', type: 'economy-class', status: 'available' },
-    { label: '13F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '14A', type: 'economy-class', status: 'available' },
-    { label: '14B', type: 'economy-class', status: 'available' },
-    { label: '14C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '14D', type: 'economy-class', status: 'available' },
-    { label: '14E', type: 'economy-class', status: 'available' },
-    { label: '14F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '15A', type: 'economy-class', status: 'available' },
-    { label: '15B', type: 'economy-class', status: 'available' },
-    { label: '15C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '15D', type: 'economy-class', status: 'available' },
-    { label: '15E', type: 'economy-class', status: 'available' },
-    { label: '15F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '16A', type: 'economy-class', status: 'available' },
-    { label: '16B', type: 'economy-class', status: 'available' },
-    { label: '16C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '16D', type: 'economy-class', status: 'available' },
-    { label: '16E', type: 'economy-class', status: 'available' },
-    { label: '16F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '17A', type: 'economy-class', status: 'available' },
-    { label: '17B', type: 'economy-class', status: 'available' },
-    { label: '17C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '17D', type: 'economy-class', status: 'available' },
-    { label: '17E', type: 'economy-class', status: 'available' },
-    { label: '17F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '18A', type: 'economy-class', status: 'available' },
-    { label: '18B', type: 'economy-class', status: 'available' },
-    { label: '18C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '18D', type: 'economy-class', status: 'available' },
-    { label: '18E', type: 'economy-class', status: 'available' },
-    { label: '18F', type: 'economy-class', status: 'available' }
-  ],
-  [
-    { label: '19A', type: 'economy-class', status: 'available' },
-    { label: '19B', type: 'economy-class', status: 'available' },
-    { label: '19C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '19D', type: 'economy-class', status: 'available' },
-    { label: '19E', type: 'economy-class', status: 'available' },
-    { label: '19F', type: 'economy-class', status: 'available' }
-  ],
-  // Additional row with 4 seats
-  [
-    
-    { label: '20B', type: 'economy-class', status: 'available' },
-    { label: '20C', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' },
-    { label: '20D', type: 'economy-class', status: 'available' },
-    { label: '20E', type: 'economy-class', status: 'available' },
-   
-  ]
-];
+import axios from 'axios';
+import './BookingPage.css';
 
 const dates = [
   "2024-05-20",
@@ -195,19 +16,48 @@ const dates = [
 ];
 
 const prices = {
-  firstClass: 500,
-  businessClass: 300,
-  economyClass: 100
+  'first-class': 500,
+  'business-class': 300,
+  'economy-class': 100
 };
 
 function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
-  const [layout, setLayout] = useState(initialLayout);
-  const [selectedClass, setSelectedClass] = useState(''); // Default class is blank
+  const [layout, setLayout] = useState([]);
+  const [selectedClass, setSelectedClass] = useState('');
   const [showNoSeatsDialog, setShowNoSeatsDialog] = useState(false);
   const [selectedDate, setSelectedDate] = useState(dates[0]);
   const [lockedSeats, setLockedSeats] = useState([]);
-  const [groupSize, setGroupSize] = useState(1); // Default group size to 1
+  const [groupSize, setGroupSize] = useState(1);
   const navigate = useNavigate();
+
+  // Fetch the initial seat layout from the backend
+  useEffect(() => {
+    axios.get('http://localhost:4000/seats')
+      .then(response => {
+        const fetchedSeats = response.data;
+        // Transform the fetched seats into a 2D array layout if necessary
+        const transformedLayout = transformSeatsToLayout(fetchedSeats);
+        setLayout(transformedLayout);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the seats!', error);
+      });
+  }, []);
+
+  const transformSeatsToLayout = (seats) => {
+    const layout = [];
+    seats.forEach(seat => {
+      const row = seat.seat_row - 1;
+      const col = seat.seat_col - 1;
+
+      if (!layout[row]) {
+        layout[row] = [];
+      }
+
+      layout[row][col] = seat;
+    });
+    return layout;
+  };
 
   const handleSeatClick = (rowIndex, seatIndex) => {
     if (selectedSeats.length >= 6) {
@@ -219,7 +69,6 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     if (seat.status === 'available') {
       const updatedLayout = layout.map(row => row.map(seat => ({ ...seat })));
 
-      // Check if this selection creates single gaps
       if (createsSingleGap(updatedLayout, rowIndex, seatIndex)) {
         alert('This seat selection would create a single gap. Please choose another seat.');
         return;
@@ -238,20 +87,14 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
 
   const createsSingleGap = (layout, rowIndex, seatIndex) => {
     const row = layout[rowIndex];
-    // Check left side of the seat
     if (seatIndex > 0 && row[seatIndex - 1].status === 'available') {
-      // Check if there's an available seat on the left side that would be isolated
-      if ((seatIndex - 2 >= 0 && row[seatIndex - 2].status !== 'available') ||
-          (seatIndex - 2 < 0)) {
+      if ((seatIndex - 2 >= 0 && row[seatIndex - 2].status !== 'available') || (seatIndex - 2 < 0)) {
         return true;
       }
     }
 
-    // Check right side of the seat
     if (seatIndex < row.length - 1 && row[seatIndex + 1].status === 'available') {
-      // Check if there's an available seat on the right side that would be isolated
-      if ((seatIndex + 2 < row.length && row[seatIndex + 2].status !== 'available') ||
-          (seatIndex + 2 >= row.length)) {
+      if ((seatIndex + 2 < row.length && row[seatIndex + 2].status !== 'available') || (seatIndex + 2 >= row.length)) {
         return true;
       }
     }
@@ -267,7 +110,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
       let start = -1;
 
       row.forEach((seat, seatIndex) => {
-        if (seat.status === 'available' && seat.type === selectedClass) {
+        if (seat.status === 'available' && seat.seat_class === selectedClass) {
           if (start === -1) {
             start = seatIndex;
           }
@@ -281,7 +124,6 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
         }
       });
 
-      // Check at the end of the row
       if (count >= groupSize) {
         blocks.push({ rowIndex, start, count });
       }
@@ -348,7 +190,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     setLockedSeats([...lockedSeats, ...selectedSeats]);
     setSelectedSeats([]);
 
-    navigate('/register', { state: { selectedSeats, prices, currentUser } }); // Pass data to register page
+    navigate('/register', { state: { selectedSeats, prices, currentUser } });
   };
 
   const releaseSeats = (seats) => {
@@ -391,14 +233,16 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
                 min="1"
                 max="6"
                 value={groupSize}
+                className="form-control"
                 onChange={(e) => setGroupSize(parseInt(e.target.value))}
               />
               {groupSize > 1 && (
                 <>
-                  <label htmlFor="selectedClass">Class:</label>
+                  <label htmlFor="selectedClass" className="mt-2">Class:</label>
                   <select
                     id="selectedClass"
                     value={selectedClass}
+                    className="form-control"
                     onChange={(e) => setSelectedClass(e.target.value)}
                   >
                     <option value="">Select Class</option>
