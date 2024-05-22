@@ -1,14 +1,119 @@
+body {
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #343a40;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
 .checkout-buttons {
   display: flex;
   justify-content: space-between;
+}
+
+.group-booking {
   margin-top: 20px;
 }
 
-.checkout-buttons .btn {
-  flex: 1;
+.group-booking label {
   margin-right: 10px;
 }
 
-.checkout-buttons .btn:last-child {
-  margin-right: 0;
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialog {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.seat {
+  margin: 2px;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.available {
+  background-color: #28a745;
+  color: white;
+}
+
+.selected {
+  background-color: #ffc107;
+  color: black;
+}
+
+.locked {
+  background-color: #6c757d;
+  color: white;
+}
+
+.aisle {
+  background-color: transparent;
 }

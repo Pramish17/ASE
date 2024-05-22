@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import DateSelector from './components/DateSelector';
-import TicketPrice from './components/TicketPrice';
-import SeatingPlanViewer from './components/SeatingPlanViewer';
-import Checkout from './components/Checkout';
-import Register from './components/Register';
-import Login from './components/Login';
-import './App.css';
+import { useNavigate } from 'react-router-dom';
+import DateSelector from './DateSelector';
+import TicketPrice from './TicketPrice';
+import BookingForm from './BookingForm';
+import SeatingPlanViewer from './SeatingPlanViewer';
 
 const initialLayout = [
   // First Class (3 rows)
@@ -208,13 +205,17 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
   const [showNoSeatsDialog, setShowNoSeatsDialog] = useState(false);
   const [selectedDate, setSelectedDate] = useState(dates[0]);
   const [lockedSeats, setLockedSeats] = useState([]);
-  const [isCheckout, setIsCheckout] = useState(false);
-  const [groupSize, setGroupSize] = useState(1);
+  const [groupSize, setGroupSize] = useState(1); // Default group size to 1
   const navigate = useNavigate();
 
   const handleSeatClick = (rowIndex, seatIndex) => {
+    if (selectedSeats.length >= 6) {
+      alert('You cannot book more than 6 seats at once.');
+      return;
+    }
+
     const seat = layout[rowIndex][seatIndex];
-    if (seat.status === 'available' && selectedSeats.length < 6) {
+    if (seat.status === 'available') {
       const updatedLayout = layout.map(row => row.map(seat => ({ ...seat })));
 
       // Check if this selection creates single gaps
@@ -257,7 +258,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     return false;
   };
 
-  const findContiguousBlocks = (layout, groupSize) => {
+  const findContiguousBlocks = (layout, groupSize, selectedClass) => {
     const blocks = [];
 
     layout.forEach((row, rowIndex) => {
@@ -265,7 +266,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
       let start = -1;
 
       row.forEach((seat, seatIndex) => {
-        if (seat.status === 'available') {
+        if (seat.status === 'available' && seat.type === selectedClass) {
           if (start === -1) {
             start = seatIndex;
           }
@@ -289,10 +290,25 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
   };
 
   const handleGroupBooking = (groupSize) => {
-    const blocks = findContiguousBlocks(layout, groupSize);
+    if (groupSize < 2 || groupSize > 6) {
+      alert('You cannot book more than 6 seats at once and group size must be at least 2.');
+      return;
+    }
+
+    if (selectedSeats.length + groupSize > 6) {
+      alert('You cannot book more than 6 seats at once.');
+      return;
+    }
+
+    if (selectedClass === '') {
+      alert('Please select a class for group booking.');
+      return;
+    }
+
+    const blocks = findContiguousBlocks(layout, groupSize, selectedClass);
 
     if (blocks.length === 0) {
-      alert('No contiguous blocks of seats are available for the group size.');
+      alert('No contiguous blocks of seats are available for the group size in the selected class.');
       return;
     }
 
@@ -305,11 +321,14 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
 
     setLayout(updatedLayout);
     setSelectedSeats(
-      Array.from({ length: groupSize }, (_, i) => ({
-        ...updatedLayout[selectedBlock.rowIndex][selectedBlock.start + i],
-        rowIndex: selectedBlock.rowIndex,
-        seatIndex: selectedBlock.start + i
-      }))
+      [
+        ...selectedSeats,
+        ...Array.from({ length: groupSize }, (_, i) => ({
+          ...updatedLayout[selectedBlock.rowIndex][selectedBlock.start + i],
+          rowIndex: selectedBlock.rowIndex,
+          seatIndex: selectedBlock.start + i
+        }))
+      ]
     );
   };
 
@@ -326,13 +345,9 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
 
     setLayout(updatedLayout);
     setLockedSeats([...lockedSeats, ...selectedSeats]);
-    setIsCheckout(true);
+    setSelectedSeats([]);
 
-    setTimeout(() => {
-      releaseSeats(selectedSeats);
-    }, 10 * 60 * 1000); // Release seats after 10 minutes
-
-    navigate('/register'); // Navigate to the register page
+    navigate('/register', { state: { selectedSeats, prices, currentUser } }); // Pass data to register page
   };
 
   const releaseSeats = (seats) => {
@@ -358,73 +373,58 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
         <h1>Airline Booking System</h1>
       </header>
       <main>
-        {!isCheckout ? (
-          <div className="row">
-            <div className="col-md-4">
-              <DateSelector dates={dates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-              <TicketPrice prices={prices} />
-              <BookingForm bookingDetails={selectedSeats} />
-              <div className="checkout-buttons mt-3">
-                <button className="btn btn-success mr-2" onClick={handleProceedToCheckout}>Proceed to Checkout</button>
-                <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-              </div>
-              <div className="group-booking mt-3">
-                <label htmlFor="groupSize">Group Size:</label>
-                <input type="number" id="groupSize" min="1" max="6" value={groupSize} onChange={(e) => setGroupSize(parseInt(e.target.value))} />
-                <button className="btn btn-primary mt-2" onClick={() => handleGroupBooking(groupSize)}>Book Group</button>
-              </div>
+        <div className="row">
+          <div className="col-md-4">
+            <DateSelector dates={dates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+            <TicketPrice prices={prices} />
+            <BookingForm bookingDetails={selectedSeats} />
+            <div className="checkout-buttons mt-3">
+              <button className="btn btn-success mr-2" onClick={handleProceedToCheckout}>Proceed to Checkout</button>
+              <button className="btn btn-danger" onClick={handleCancel}>Cancel</button>
             </div>
-            <div className="col-md-8">
-              <SeatingPlanViewer layout={layout} onSeatClick={handleSeatClick} />
+            <div className="group-booking mt-3">
+              <label htmlFor="groupSize">Group Size:</label>
+              <input
+                type="number"
+                id="groupSize"
+                min="1"
+                max="6"
+                value={groupSize}
+                onChange={(e) => setGroupSize(parseInt(e.target.value))}
+              />
+              {groupSize > 1 && (
+                <>
+                  <label htmlFor="selectedClass">Class:</label>
+                  <select
+                    id="selectedClass"
+                    value={selectedClass}
+                    onChange={(e) => setSelectedClass(e.target.value)}
+                  >
+                    <option value="">Select Class</option>
+                    <option value="first-class">First Class</option>
+                    <option value="business-class">Business Class</option>
+                    <option value="economy-class">Economy Class</option>
+                  </select>
+                  <button className="btn btn-primary mt-2" onClick={() => handleGroupBooking(groupSize)}>Book Group</button>
+                </>
+              )}
             </div>
-            {showNoSeatsDialog && (
-              <div className="dialog-overlay">
-                <div className="dialog">
-                  <p>No seats available in the selected class.</p>
-                  <button className="btn btn-primary" onClick={handleCloseDialog}>Close</button>
-                </div>
-              </div>
-            )}
           </div>
-        ) : (
-          <Checkout selectedSeats={selectedSeats} prices={prices} user={currentUser} />
-        )}
+          <div className="col-md-8">
+            <SeatingPlanViewer layout={layout} onSeatClick={handleSeatClick} />
+          </div>
+          {showNoSeatsDialog && (
+            <div className="dialog-overlay">
+              <div className="dialog">
+                <p>No seats available in the selected class.</p>
+                <button className="btn btn-primary" onClick={handleCloseDialog}>Close</button>
+              </div>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
 }
 
-function App() {
-  const [registeredUsers, setRegisteredUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [selectedSeats, setSelectedSeats] = useState([]);
-
-  const handleRegister = (user) => {
-    setRegisteredUsers([...registeredUsers, user]);
-    setCurrentUser(user);
-  };
-
-  const handleLogin = (user) => {
-    const foundUser = registeredUsers.find(
-      (u) => u.username === user.username && u.password === user.password
-    );
-    if (foundUser) {
-      setCurrentUser(foundUser);
-    } else {
-      alert('Invalid username or password');
-    }
-  };
-
-  return (
-    <Router>
-      <Routes>
-        <Route path="/register" element={<Register onRegister={handleRegister} />} />
-        <Route path="/login" element={<Login users={registeredUsers} onLogin={handleLogin} />} />
-        <Route path="/checkout" element={<Checkout selectedSeats={selectedSeats} prices={prices} user={currentUser} />} />
-        <Route path="/" element={<BookingPage currentUser={currentUser} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />} />
-      </Routes>
-    </Router>
-  );
-}
-
-export default App;
+export default BookingPage;

@@ -1,12 +1,22 @@
 import React from 'react';
-import '../styles/SeatingPlanViewer.css';
-import SeatingLayout from './SeatingLayout';
+import './SeatingPlanViewer.css';
 
 const SeatingPlanViewer = ({ layout, onSeatClick }) => {
   return (
-    <div className="seating-plan-viewer card p-3 shadow mb-4">
-      <h3 className="card-title">Seating Plan</h3>
-      <SeatingLayout layout={layout} onSeatClick={onSeatClick} />
+    <div className="seating-plan">
+      {layout.map((row, rowIndex) => (
+        <div key={rowIndex} className="seat-row">
+          {row.map((seat, seatIndex) => (
+            <div
+              key={seatIndex}
+              className={`seat ${seat.type} ${seat.status}`}
+              onClick={() => onSeatClick(rowIndex, seatIndex)}
+            >
+              {seat.label}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };
