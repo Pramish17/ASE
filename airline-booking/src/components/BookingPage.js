@@ -176,12 +176,13 @@ const initialLayout = [
   ],
   // Additional row with 4 seats
   [
-    { label: '', type: 'aisle', status: '' },
+    
     { label: '20B', type: 'economy-class', status: 'available' },
     { label: '20C', type: 'economy-class', status: 'available' },
+    { label: '', type: 'aisle', status: '' },
     { label: '20D', type: 'economy-class', status: 'available' },
     { label: '20E', type: 'economy-class', status: 'available' },
-    { label: '', type: 'aisle', status: '' }
+   
   ]
 ];
 

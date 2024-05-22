@@ -6,30 +6,45 @@
 
 .seat-row {
   display: flex;
-  justify-content: center;
-  margin: 5px 0;
+  margin-bottom: 10px;
 }
 
 .seat {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 0.9em;
+  text-align: center;
 }
 
-.seat.first-class.available { background-color: blue; }
-.seat.business-class.available { background-color: orange; }
-.seat.economy-class.available { background-color: green; }
+/* Colors for different classes when available */
+.seat.available.first-class {
+  background-color: blue; /* Light blue for first class */
+}
 
-.seat.selected { background-color: yellow; }
-.seat.locked { background-color: red; }
+.seat.available.business-class {
+  background-color: #ffa500; /* Orange for business class */
+}
 
-.aisle {
-  width: 30px;
-  height: 30px;
-  margin: 5px;
+.seat.available.economy-class {
+  background-color: green; /* Light green for economy class */
+}
+
+/* Colors for seats when selected */
+.seat.selected {
+  background-color: #808080; /* Grey for selected seats */
+  color: white;
+}
+
+/* Colors for seats when locked/booked */
+.seat.locked {
+  background-color: #ff6347; /* Tomato for locked seats */
+  color: white;
+  cursor: not-allowed;
 }

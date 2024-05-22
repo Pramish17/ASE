@@ -9,8 +9,8 @@ const SeatingPlanViewer = ({ layout, onSeatClick }) => {
           {row.map((seat, seatIndex) => (
             <div
               key={seatIndex}
-              className={`seat ${seat.type} ${seat.status}`}
-              onClick={() => onSeatClick(rowIndex, seatIndex)}
+              className={`seat ${seat.status} ${seat.type}`}
+              onClick={() => seat.status === 'available' && onSeatClick(rowIndex, seatIndex)}
             >
               {seat.label}
             </div>

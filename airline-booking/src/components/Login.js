@@ -5,7 +5,7 @@ const Login = ({ users, onLogin }) => {
   const [form, setForm] = useState({ username: '', password: '' });
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedSeats, prices, currentUser } = location.state || {};
+  const { selectedSeats, prices, selectedDate, currentUser } = location.state || {};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +17,7 @@ const Login = ({ users, onLogin }) => {
     const user = users.find(u => u.username === form.username && u.password === form.password);
     if (user) {
       onLogin(user);
-      navigate('/checkout', { state: { selectedSeats, prices, user } });
+      navigate('/checkout', { state: { selectedSeats, prices, selectedDate, user } });
     } else {
       alert('Invalid username or password');
     }

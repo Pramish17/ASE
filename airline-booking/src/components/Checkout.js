@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import './Checkout.css';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -37,17 +38,21 @@ const Checkout = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="checkout-container">
       <h2>Checkout</h2>
-      <p>Selected Seats:</p>
-      <ul>
-        {selectedSeats.map((seat, index) => (
-          <li key={index}>{seat.label} ({seat.type.replace('-', ' ')})</li>
-        ))}
-      </ul>
-      <p>Total Price: ${getTotalPrice().toFixed(2)}</p>
-      <button className="btn btn-success" onClick={handleCheckout}>Confirm and Pay</button>
-      <button className="btn btn-primary" onClick={handleBackToBooking}>Back to Booking</button>
+      <div className="checkout-details">
+        <p><strong>Selected Seats:</strong></p>
+        <ul className="seats-list">
+          {selectedSeats.map((seat, index) => (
+            <li key={index}>{seat.label} ({seat.type.replace('-', ' ')})</li>
+          ))}
+        </ul>
+        <p className="total-price"><strong>Total Price:</strong> ${getTotalPrice().toFixed(2)}</p>
+      </div>
+      <div className="checkout-buttons">
+        <button className="btn btn-success" onClick={handleCheckout}>Confirm and Pay</button>
+        <button className="btn btn-primary" onClick={handleBackToBooking}>Back to Booking</button>
+      </div>
     </div>
   );
 };

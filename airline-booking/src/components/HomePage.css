@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.homepage-container {
+  text-align: center;
+  padding: 50px 20px;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.homepage-header {
+  margin-bottom: 40px;
+}
+
+.homepage-header h1 {
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+.homepage-header p {
+  font-size: 1.5em;
+  margin-bottom: 30px;
+  animation: fadeIn 2s ease-in-out;
+}
+
+.homepage-header .btn {
+  padding: 15px 40px;
+  font-size: 1.2em;
+  border-radius: 25px;
+  border: none;
+  background: #ffdd00;
+  color: #6a11cb;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.homepage-header .btn:hover {
+  background: #ffdd00;
+  color: #2575fc;
+}
+
+.homepage-features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.feature {
+  text-align: center;
+  max-width: 250px;
+  animation: fadeIn 2.5s ease-in-out;
+}
+
+.feature i {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #ffdd00;
+}
+
+.feature h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 1em;
+}
+
+.homepage-footer {
+  margin-top: 40px;
+}
+
+.homepage-footer p {
+  font-size: 1em;
+  margin: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -5,7 +5,7 @@ const Register = ({ onRegister }) => {
   const [form, setForm] = useState({ username: '', password: '', fullName: '', age: '', email: '' });
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedSeats, prices, currentUser } = location.state || {};
+  const { selectedSeats, prices, selectedDate, currentUser } = location.state || {};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,7 +15,7 @@ const Register = ({ onRegister }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister(form);
-    navigate('/login', { state: { selectedSeats, prices, currentUser } });
+    navigate('/login', { state: { selectedSeats, prices, selectedDate, currentUser } });
   };
 
   return (

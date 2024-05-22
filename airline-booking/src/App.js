@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage';
 import BookingPage from './components/BookingPage';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -36,10 +37,11 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/booking" element={<BookingPage currentUser={currentUser} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />} />
         <Route path="/register" element={<Register onRegister={handleRegister} />} />
         <Route path="/login" element={<Login users={registeredUsers} onLogin={handleLogin} />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/" element={<BookingPage currentUser={currentUser} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />} />
       </Routes>
     </Router>
   );
