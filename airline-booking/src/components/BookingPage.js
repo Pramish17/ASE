@@ -188,9 +188,15 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
 
     setLayout(updatedLayout);
     setLockedSeats([...lockedSeats, ...selectedSeats]);
-    setSelectedSeats([]);
 
-    navigate('/register', { state: { selectedSeats, prices, currentUser } });
+    axios.post('http://localhost:4000/book-seats', { seats: selectedSeats })
+      .then(response => {
+        setSelectedSeats([]);
+        navigate('/register', { state: { selectedSeats, prices, currentUser } });
+      })
+      .catch(error => {
+        console.error('There was an error booking the seats!', error);
+      });
   };
 
   const releaseSeats = (seats) => {

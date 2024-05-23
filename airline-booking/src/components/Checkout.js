@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import './Checkout.css';
 
-const Checkout = () => {
+const Checkout = ({ currentUser }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedSeats = [], prices = {} } = location.state || {};
@@ -30,24 +29,12 @@ const Checkout = () => {
 
   const totalPrice = calculateTotalPrice();
 
-  const handleConfirmAndPay = async () => {
-    try {
-      const response = await axios.post('http://localhost:4000/book-seats', {
-        seats: selectedSeats
-      });
-      if (response.status === 200) {
-        setShowDialog(true);
-      } else {
-        alert('Error booking seats');
-      }
-    } catch (error) {
-      console.error('Error booking seats:', error);
-      alert('Error booking seats');
-    }
+  const handleConfirmAndPay = () => {
+    setShowDialog(true);
   };
 
   const handleGoToDashboard = () => {
-    navigate('/dashboard'); // Assuming you have a dashboard route
+    navigate('/'); // Assuming you have a dashboard route
   };
 
   const handleGoBackToBooking = () => {

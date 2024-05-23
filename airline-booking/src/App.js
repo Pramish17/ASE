@@ -24,14 +24,7 @@ function App() {
   };
 
   const handleLogin = (user) => {
-    const foundUser = registeredUsers.find(
-      (u) => u.username === user.username && u.password === user.password
-    );
-    if (foundUser) {
-      setCurrentUser(foundUser);
-    } else {
-      alert('Invalid username or password');
-    }
+    setCurrentUser(user);
   };
 
   return (
@@ -40,8 +33,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/booking" element={<BookingPage currentUser={currentUser} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />} />
         <Route path="/register" element={<Register onRegister={handleRegister} />} />
-        <Route path="/login" element={<Login users={registeredUsers} onLogin={handleLogin} />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/checkout" element={<Checkout currentUser={currentUser} />} />
       </Routes>
     </Router>
   );

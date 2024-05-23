@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 4000;
@@ -53,7 +54,7 @@ app.post('/book-seats', (req, res) => {
         [seatIds],
         (err) => {
           if (err) throw err;
-          res.json({ message: 'Seats booked successfully' });
+          res.json({ message: 'Seats booked successfully', seats: seatIds });
         }
       );
     }
@@ -102,6 +103,77 @@ app.post('/find-contiguous-blocks', (req, res) => {
       res.json(blocks);
     }
   );
+});
+
+// Register user
+app.post('/register', async (req, res) => {
+  const { username, password, fullName, email } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    db.query(
+      'INSERT INTO users (username, password, full_name, email) VALUES (?, ?, ?, ?)',
+      [username, hashedPassword, fullName, email],
+      (err, results) => {
+        if (err) {
+          if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(400).json({ message: 'Username already exists' });
+          }
+          throw err;
+        }
+        console.log(`User ${username} registered successfully`);
+        res.status(201).json({ message: 'User registered successfully', user: { id: results.insertId, username, fullName, email } });
+      }
+    );
+  } catch (err) {
+    console.error('Error during registration:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Login user
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
+
+  console.log(`Attempting login for username: ${username}`);
+
+  db.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
+
+    if (results.length === 0) {
+      console.log(`No user found with username: ${username}`);
+      return res.status(400).json({ message: 'Invalid username or password' });
+    }
+
+    const user = results[0];
+    console.log(`User found: ${user.username}, comparing passwords...`);
+
+    try {
+      const match = await bcrypt.compare(password, user.password);
+
+      if (match) {
+        console.log('Password match, login successful');
+        res.json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email, full_name: user.full_name } });
+      } else {
+        console.log('Password does not match');
+        res.status(400).json({ message: 'Invalid username or password' });
+      }
+    } catch (err) {
+      console.error('Error comparing passwords:', err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 });
 
 app.listen(port, () => {

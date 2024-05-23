@@ -1,31 +1,40 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css';
 
-const Login = ({ users, onLogin }) => {
+const Login = ({ onLogin }) => {
   const [form, setForm] = useState({ username: '', password: '' });
   const navigate = useNavigate();
   const location = useLocation();
-  const { selectedSeats, prices, selectedDate, currentUser } = location.state || {};
+  const { selectedSeats, prices, selectedDate } = location.state || {};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = users.find(u => u.username === form.username && u.password === form.password);
-    if (user) {
-      onLogin(user);
-      navigate('/checkout', { state: { selectedSeats, prices, selectedDate, user } });
-    } else {
+    try {
+      const response = await axios.post('http://localhost:4000/login', form);
+      if (response.status === 200 && response.data.message === 'Login successful') {
+        const user = response.data.user;
+        console.log('Login successful:', user);
+        alert('Login successful');
+        onLogin(user);
+        navigate('/checkout', { state: { selectedSeats, prices, selectedDate, currentUser: user } });
+      } else {
+        alert('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Login error:', error.response ? error.response.data : error.message);
       alert('Invalid username or password');
     }
   };
 
   const handleRegisterRedirect = () => {
-    navigate('/register', { state: { selectedSeats, prices, selectedDate, currentUser } });
+    navigate('/register', { state: { selectedSeats, prices, selectedDate } });
   };
 
   return (
