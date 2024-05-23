@@ -1,11 +1,11 @@
 const express = require('express');
 const mysql = require('mysql2');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors');
 
 const app = express();
 const port = 4000;
 
-app.use(cors()); // Use the cors middleware
+app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -30,21 +30,27 @@ app.get('/seats', (req, res) => {
 
 // Endpoint to book seats
 app.post('/book-seats', (req, res) => {
-  const { seatIds, userId } = req.body;
-  
+  const { seats } = req.body;
+
+  if (!seats || !seats.length) {
+    return res.status(400).json({ message: 'No seats provided' });
+  }
+
+  const seatIds = seats.map(seat => seat.id);
+
   db.query(
     'SELECT * FROM seats WHERE id IN (?) AND status = "available"',
     [seatIds],
     (err, results) => {
       if (err) throw err;
-      
+
       if (results.length !== seatIds.length) {
         return res.status(400).json({ message: 'Some seats are not available' });
       }
 
       db.query(
-        'UPDATE seats SET status = "booked", user_id = ? WHERE id IN (?)',
-        [userId, seatIds],
+        'UPDATE seats SET status = "booked" WHERE id IN (?)',
+        [seatIds],
         (err) => {
           if (err) throw err;
           res.json({ message: 'Seats booked successfully' });

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import './Login.css';
 
 const Login = ({ users, onLogin }) => {
   const [form, setForm] = useState({ username: '', password: '' });
@@ -23,20 +24,43 @@ const Login = ({ users, onLogin }) => {
     }
   };
 
+  const handleRegisterRedirect = () => {
+    navigate('/register', { state: { selectedSeats, prices, selectedDate, currentUser } });
+  };
+
   return (
     <div className="container mt-5">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
-          <input type="text" className="form-control" name="username" value={form.username} onChange={handleChange} required />
+          <input 
+            type="text" 
+            className="form-control" 
+            name="username" 
+            value={form.username} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
         <div className="form-group">
           <label>Password</label>
-          <input type="password" className="form-control" name="password" value={form.password} onChange={handleChange} required />
+          <input 
+            type="password" 
+            className="form-control" 
+            name="password" 
+            value={form.password} 
+            onChange={handleChange} 
+            required 
+          />
         </div>
         <button type="submit" className="btn btn-primary">Login</button>
       </form>
+      <div className="register-link mt-3">
+        <p>
+          Need to register? <button onClick={handleRegisterRedirect} className="btn btn-link">Register here</button>
+        </p>
+      </div>
     </div>
   );
 };
