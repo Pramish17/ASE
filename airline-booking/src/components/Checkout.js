@@ -5,7 +5,7 @@ import './Checkout.css';
 const Checkout = ({ currentUser }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { selectedSeats = [], prices = {} } = location.state || {};
+  const { selectedSeats = [], prices = {}, selectedDate } = location.state || {};
   const [showDialog, setShowDialog] = useState(false);
 
   console.log('Selected Seats:', selectedSeats);
@@ -34,11 +34,11 @@ const Checkout = ({ currentUser }) => {
   };
 
   const handleGoToDashboard = () => {
-    navigate('/'); // Assuming you have a dashboard route
+    navigate('/'); 
   };
 
   const handleGoBackToBooking = () => {
-    navigate('/booking'); // Assuming you have a booking route
+    navigate('/booking'); 
   };
 
   return (
@@ -56,6 +56,12 @@ const Checkout = ({ currentUser }) => {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+        <div className="card mt-3">
+          <div className="card-body">
+            <h5 className="card-title">Selected Date</h5>
+            <p className="card-text">{selectedDate ? selectedDate.toISOString().split('T')[0] : 'No date selected'}</p>
           </div>
         </div>
       </div>
@@ -81,6 +87,7 @@ const Checkout = ({ currentUser }) => {
                 </li>
               ))}
             </ul>
+            <p className="card-text mt-3"><strong>Date: {selectedDate ? selectedDate.toISOString().split('T')[0] : 'No date selected'}</strong></p>
             <p className="card-text mt-3"><strong>Total Price: ${totalPrice.toFixed(2)}</strong></p>
             <div className="dialog-buttons">
               <button className="btn btn-secondary mr-2" onClick={handleGoBackToBooking}>Go back to Booking</button>

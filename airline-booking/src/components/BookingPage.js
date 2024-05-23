@@ -180,7 +180,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     axios.post('http://localhost:4000/book-seats', { seats: selectedSeats })
       .then(response => {
         setSelectedSeats([]);
-        navigate('/register', { state: { selectedSeats, prices: currentPrices, currentUser } });
+        navigate('/register', { state: { selectedSeats, prices: currentPrices, currentUser, selectedDate } });
       })
       .catch(error => {
         console.error('There was an error booking the seats!', error);
