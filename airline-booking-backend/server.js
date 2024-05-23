@@ -1,5 +1,6 @@
 const express = require('express');
-const mysql = require('mysql2');
+// const mysql = require('mysql2');
+const mysql = require('mysql');
 const cors = require('cors');
 // const bcrypt = require('bcrypt');
 const bcrypt = require('bcryptjs');
@@ -14,7 +15,7 @@ const db = mysql.createConnection({
   host: 'airline-booking.ctwm8eou60kv.eu-north-1.rds.amazonaws.com',
   user: 'root',
   password: 'rootadmin',
-  database: 'airline-booking'
+  database: 'airlinebooking'
 });
 
 db.connect(err => {
