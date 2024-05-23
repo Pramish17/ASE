@@ -24,7 +24,7 @@ function App() {
   };
 
   const handleLogin = (user) => {
-    setCurrentUser(user); // Directly set the current user from the backend response
+    setCurrentUser(user); 
   };
 
   return (

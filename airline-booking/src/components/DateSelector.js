@@ -11,7 +11,7 @@ const DateSelector = ({ selectedDate, setSelectedDate }) => {
         onChange={(date) => setSelectedDate(date)}
         dateFormat="yyyy-MM-dd"
         className="form-control"
-        minDate={new Date()} // Set the minimum selectable date to today's date
+        minDate={new Date()} 
       />
     </div>
   );
