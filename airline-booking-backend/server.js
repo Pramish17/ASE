@@ -5,16 +5,16 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'airline-booking.ctwm8eou60kv.eu-north-1.rds.amazonaws.com',
   user: 'root',
-  password: 'root',
-  database: 'airline_booking'
+  password: 'rootadmin',
+  database: 'airline-booking'
 });
 
 db.connect(err => {
