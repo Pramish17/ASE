@@ -1,19 +1,18 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-const DateSelector = ({ dates, selectedDate, setSelectedDate }) => {
+const DateSelector = ({ selectedDate, setSelectedDate }) => {
   return (
-    <div className="date-selector mb-4">
-      <label htmlFor="dateSelect" className="form-label">Select Date:</label>
-      <select
-        id="dateSelect"
-        value={selectedDate}
-        className="form-select"
-        onChange={(e) => setSelectedDate(e.target.value)}
-      >
-        {dates.map((date, index) => (
-          <option key={index} value={date}>{date}</option>
-        ))}
-      </select>
+    <div className="date-selector">
+      <h4>Select a Date</h4>
+      <DatePicker
+        selected={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        dateFormat="yyyy-MM-dd"
+        className="form-control"
+        minDate={new Date()} // Set the minimum selectable date to today's date
+      />
     </div>
   );
 };

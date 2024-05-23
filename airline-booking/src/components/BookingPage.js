@@ -7,35 +7,28 @@ import SeatingPlanViewer from './SeatingPlanViewer';
 import axios from 'axios';
 import './BookingPage.css';
 
-const dates = [
-  "2024-05-20",
-  "2024-05-21",
-  "2024-05-22",
-  "2024-05-23",
-  "2024-05-24"
-];
-
-const prices = {
-  'first-class': 500,
-  'business-class': 300,
-  'economy-class': 100
+const dateToPricesMap = {
+  '2024-05-20': { 'first-class': 500, 'business-class': 300, 'economy-class': 100 },
+  '2024-05-21': { 'first-class': 550, 'business-class': 320, 'economy-class': 120 },
+  '2024-05-22': { 'first-class': 530, 'business-class': 310, 'economy-class': 110 },
+  '2024-05-23': { 'first-class': 600, 'business-class': 350, 'economy-class': 150 },
+  '2024-05-24': { 'first-class': 520, 'business-class': 330, 'economy-class': 130 }
 };
 
 function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
   const [layout, setLayout] = useState([]);
   const [selectedClass, setSelectedClass] = useState('');
   const [showNoSeatsDialog, setShowNoSeatsDialog] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(dates[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [currentPrices, setCurrentPrices] = useState(dateToPricesMap['2024-05-20']);
   const [lockedSeats, setLockedSeats] = useState([]);
   const [groupSize, setGroupSize] = useState(1);
   const navigate = useNavigate();
 
-  // Fetch the initial seat layout from the backend
   useEffect(() => {
     axios.get('http://localhost:4000/seats')
       .then(response => {
         const fetchedSeats = response.data;
-        // Transform the fetched seats into a 2D array layout if necessary
         const transformedLayout = transformSeatsToLayout(fetchedSeats);
         setLayout(transformedLayout);
       })
@@ -44,16 +37,19 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
       });
   }, []);
 
+  useEffect(() => {
+    const selectedDateString = selectedDate.toISOString().split('T')[0];
+    setCurrentPrices(dateToPricesMap[selectedDateString] || dateToPricesMap['2024-05-20']);
+  }, [selectedDate]);
+
   const transformSeatsToLayout = (seats) => {
     const layout = [];
     seats.forEach(seat => {
       const row = seat.seat_row - 1;
       const col = seat.seat_col - 1;
-
       if (!layout[row]) {
         layout[row] = [];
       }
-
       layout[row][col] = seat;
     });
     return layout;
@@ -104,11 +100,9 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
 
   const findContiguousBlocks = (layout, groupSize, selectedClass) => {
     const blocks = [];
-
     layout.forEach((row, rowIndex) => {
       let count = 0;
       let start = -1;
-
       row.forEach((seat, seatIndex) => {
         if (seat.status === 'available' && seat.seat_class === selectedClass) {
           if (start === -1) {
@@ -123,12 +117,10 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
           start = -1;
         }
       });
-
       if (count >= groupSize) {
         blocks.push({ rowIndex, start, count });
       }
     });
-
     return blocks;
   };
 
@@ -149,7 +141,6 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     }
 
     const blocks = findContiguousBlocks(layout, groupSize, selectedClass);
-
     if (blocks.length === 0) {
       alert('No contiguous blocks of seats are available for the group size in the selected class.');
       return;
@@ -157,22 +148,19 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
 
     const selectedBlock = blocks[0];
     const updatedLayout = layout.map(row => row.map(seat => ({ ...seat })));
-
     for (let i = 0; i < groupSize; i++) {
       updatedLayout[selectedBlock.rowIndex][selectedBlock.start + i].status = 'selected';
     }
 
     setLayout(updatedLayout);
-    setSelectedSeats(
-      [
-        ...selectedSeats,
-        ...Array.from({ length: groupSize }, (_, i) => ({
-          ...updatedLayout[selectedBlock.rowIndex][selectedBlock.start + i],
-          rowIndex: selectedBlock.rowIndex,
-          seatIndex: selectedBlock.start + i
-        }))
-      ]
-    );
+    setSelectedSeats([
+      ...selectedSeats,
+      ...Array.from({ length: groupSize }, (_, i) => ({
+        ...updatedLayout[selectedBlock.rowIndex][selectedBlock.start + i],
+        rowIndex: selectedBlock.rowIndex,
+        seatIndex: selectedBlock.start + i
+      }))
+    ]);
   };
 
   const handleProceedToCheckout = () => {
@@ -192,7 +180,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     axios.post('http://localhost:4000/book-seats', { seats: selectedSeats })
       .then(response => {
         setSelectedSeats([]);
-        navigate('/register', { state: { selectedSeats, prices, currentUser } });
+        navigate('/register', { state: { selectedSeats, prices: currentPrices, currentUser } });
       })
       .catch(error => {
         console.error('There was an error booking the seats!', error);
@@ -224,8 +212,8 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
       <main>
         <div className="row">
           <div className="col-md-4">
-            <DateSelector dates={dates} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-            <TicketPrice prices={prices} />
+            <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+            <TicketPrice prices={currentPrices} />
             <BookingForm bookingDetails={selectedSeats} />
             <div className="checkout-buttons mt-3">
               <button className="btn btn-success mr-2" onClick={handleProceedToCheckout}>Proceed to Checkout</button>
