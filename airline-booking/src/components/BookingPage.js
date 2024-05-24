@@ -26,7 +26,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('umw37ro603.execute-api.eu-north-1.amazonaws.com/dev/seats')
+    axios.get('https://jl8n1bn2y7.execute-api.eu-north-1.amazonaws.com/dev/seats')
       .then(response => {
         const fetchedSeats = response.data;
         const transformedLayout = transformSeatsToLayout(fetchedSeats);

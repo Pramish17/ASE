@@ -5,7 +5,7 @@ const SeatBooking = () => {
   const [seats, setSeats] = useState([]);
 
   useEffect(() => {
-    axios.get('umw37ro603.execute-api.eu-north-1.amazonaws.com/dev/seats')
+    axios.get('https://jl8n1bn2y7.execute-api.eu-north-1.amazonaws.com/dev/seats')
       .then(response => {
         setSeats(response.data);
       })
