@@ -11,10 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: 'airlinebookingdb.ctwm8eou60kv.eu-north-1.rds.amazonaws.com',
   user: 'root',
-  password: 'root',
-  database: 'airline_booking'
+  password: 'rootadmin',
+  database: 'airlinebookingdb'
 });
 
 db.connect(err => {
