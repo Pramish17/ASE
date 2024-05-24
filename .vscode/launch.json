@@ -3,9 +3,9 @@
 
         {
             "type": "chrome",
-            "name": "http://localhost:3000/login",
+            "name": "https://jl8n1bn2y7.execute-api.eu-north-1.amazonaws.com/dev/seats",
             "request": "launch",
-            "url": "http://localhost:3000/login"
+            "url": "https://jl8n1bn2y7.execute-api.eu-north-1.amazonaws.com/dev/seats"
         }
     ]
 }

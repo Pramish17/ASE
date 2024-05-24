@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-airlinebooking-dev-037ab-authRole",
+      "UnauthRoleArn": "arn:aws:iam::471112523056:role/amplify-airlinebooking-dev-037ab-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::471112523056:role/amplify-airlinebooking-dev-037ab-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-airlinebooking-dev-037ab-deployment",
+      "UnauthRoleName": "amplify-airlinebooking-dev-037ab-unauthRole",
+      "StackName": "amplify-airlinebooking-dev-037ab",
+      "StackId": "arn:aws:cloudformation:eu-north-1:471112523056:stack/amplify-airlinebooking-dev-037ab/7b04a880-1a0b-11ef-8413-0ec568337136",
+      "AmplifyAppId": "d3gxeg7yc6xg5q"
+    },
+    "categories": {
+      "function": {
+        "seats": {
+          "deploymentBucketName": "amplify-airlinebooking-dev-037ab-deployment",
+          "s3Key": "amplify-builds/seats-596b5a635a312b4d7563-build.zip"
+        }
+      },
+      "api": {
+        "viewseats": {}
+      }
+    }
+  }
+}

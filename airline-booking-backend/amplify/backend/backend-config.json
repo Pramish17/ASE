@@ -1,0 +1,43 @@
+{
+  "api": {
+    "viewseats": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "seats"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "seats": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_seats_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "seats"
+        }
+      ]
+    },
+    "AMPLIFY_function_seats_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "seats"
+        }
+      ]
+    }
+  }
+}

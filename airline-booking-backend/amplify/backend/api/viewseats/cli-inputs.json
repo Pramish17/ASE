@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/seats": {
+      "name": "/seats",
+      "lambdaFunction": "seats",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/login": {
+      "name": "/login",
+      "lambdaFunction": "seats",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
