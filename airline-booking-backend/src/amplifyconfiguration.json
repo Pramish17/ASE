@@ -1,0 +1,31 @@
+{
+  "aws_project_region": "eu-north-1",
+  "aws_cloud_logic_custom": [
+    {
+      "name": "airlinebookingapi",
+      "endpoint": "https://umw37ro603.execute-api.eu-north-1.amazonaws.com/dev",
+      "region": "eu-north-1"
+    }
+  ],
+  "aws_cognito_identity_pool_id": "eu-north-1:77236a87-8316-4bb3-a788-2257f2578387",
+  "aws_cognito_region": "eu-north-1",
+  "aws_user_pools_id": "eu-north-1_D1mqExIzv",
+  "aws_user_pools_web_client_id": "590d16guv5k3l08dkch9nmpk6u",
+  "oauth": {},
+  "aws_cognito_username_attributes": [],
+  "aws_cognito_social_providers": [],
+  "aws_cognito_signup_attributes": [
+    "EMAIL"
+  ],
+  "aws_cognito_mfa_configuration": "OFF",
+  "aws_cognito_mfa_types": [
+    "SMS"
+  ],
+  "aws_cognito_password_protection_settings": {
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": []
+  },
+  "aws_cognito_verification_mechanisms": [
+    "EMAIL"
+  ]
+}

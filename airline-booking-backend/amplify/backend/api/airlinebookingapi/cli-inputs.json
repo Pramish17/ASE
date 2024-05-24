@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "paths": {
+    "/seats": {
+      "name": "/seats",
+      "lambdaFunction": "airlinebooking",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/book-seats": {
+      "name": "/book-seats",
+      "lambdaFunction": "bookseats",
+      "permissions": {
+        "setting": "protected",
+        "auth": [
+          "read"
+        ],
+        "guest": [
+          "read"
+        ]
+      }
+    }
+  }
+}

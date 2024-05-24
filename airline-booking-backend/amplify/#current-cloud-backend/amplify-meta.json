@@ -1,0 +1,139 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-airlinebookingbe-dev-e6792-authRole",
+      "UnauthRoleArn": "arn:aws:iam::471112523056:role/amplify-airlinebookingbe-dev-e6792-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::471112523056:role/amplify-airlinebookingbe-dev-e6792-authRole",
+      "Region": "eu-north-1",
+      "DeploymentBucketName": "amplify-airlinebookingbe-dev-e6792-deployment",
+      "UnauthRoleName": "amplify-airlinebookingbe-dev-e6792-unauthRole",
+      "StackName": "amplify-airlinebookingbe-dev-e6792",
+      "StackId": "arn:aws:cloudformation:eu-north-1:471112523056:stack/amplify-airlinebookingbe-dev-e6792/3bcedf70-19f5-11ef-9e9e-064f6d61111f",
+      "AmplifyAppId": "d3cybsxeqwo4cv",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-airlinebookingbe-dev-e6792-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+    }
+  },
+  "api": {
+    "airlinebookingapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "airlinebooking"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "bookseats"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway",
+      "output": {
+        "ApiName": "airlinebookingapi",
+        "RootUrl": "https://umw37ro603.execute-api.eu-north-1.amazonaws.com/dev",
+        "ApiId": "umw37ro603"
+      },
+      "lastPushTimeStamp": "2024-05-24T19:42:04.199Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-airlinebookingbe-dev-e6792-deployment/amplify-cfn-templates/api/airlinebookingapi-cloudformation-template.json",
+        "logicalId": "apiairlinebookingapi"
+      }
+    }
+  },
+  "auth": {
+    "airlinebookingbe": {
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "managed",
+      "output": {
+        "UserPoolId": "eu-north-1_D1mqExIzv",
+        "AppClientIDWeb": "590d16guv5k3l08dkch9nmpk6u",
+        "AppClientID": "6bj0sepp530n9le0o4ipug13l0",
+        "IdentityPoolId": "eu-north-1:77236a87-8316-4bb3-a788-2257f2578387",
+        "UserPoolArn": "arn:aws:cognito-idp:eu-north-1:471112523056:userpool/eu-north-1_D1mqExIzv",
+        "IdentityPoolName": "airlinebookingbe_identitypool_70a57ea8__dev",
+        "UserPoolName": "airlinebookingbe_userpool_70a57ea8"
+      },
+      "lastPushTimeStamp": "2024-05-24T19:42:04.203Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-airlinebookingbe-dev-e6792-deployment/amplify-cfn-templates/auth/airlinebookingbe-cloudformation-template.json",
+        "logicalId": "authairlinebookingbe"
+      }
+    }
+  },
+  "function": {
+    "airlinebooking": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::471112523056:role/airlinebookingbeLambdaRole50063c08-dev",
+        "Region": "eu-north-1",
+        "Arn": "arn:aws:lambda:eu-north-1:471112523056:function:airlinebooking-dev",
+        "Name": "airlinebooking-dev",
+        "LambdaExecutionRole": "airlinebookingbeLambdaRole50063c08-dev"
+      },
+      "lastPushTimeStamp": "2024-05-24T19:42:05.010Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-airlinebookingbe-dev-e6792-deployment/amplify-cfn-templates/function/airlinebooking-cloudformation-template.json",
+        "logicalId": "functionairlinebooking"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-airlinebookingbe-dev-e6792-deployment",
+        "s3Key": "amplify-builds/airlinebooking-75683378524a482f4b6d-build.zip"
+      },
+      "lastBuildTimeStamp": "2024-05-24T19:40:57.137Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2024-05-24T19:40:58.600Z",
+      "distZipFilename": "airlinebooking-75683378524a482f4b6d-build.zip",
+      "lastPushDirHash": "vd6+kjdwBeyyI1G2mFQg0cyfxO0="
+    },
+    "bookseats": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::471112523056:role/airlinebookingbeLambdaRole9a550bc6-dev",
+        "Region": "eu-north-1",
+        "Arn": "arn:aws:lambda:eu-north-1:471112523056:function:bookseats-dev",
+        "Name": "bookseats-dev",
+        "LambdaExecutionRole": "airlinebookingbeLambdaRole9a550bc6-dev"
+      },
+      "lastPushTimeStamp": "2024-05-24T19:42:04.270Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-airlinebookingbe-dev-e6792-deployment/amplify-cfn-templates/function/bookseats-cloudformation-template.json",
+        "logicalId": "functionbookseats"
+      },
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-airlinebookingbe-dev-e6792-deployment",
+        "s3Key": "amplify-builds/bookseats-483378455648417a5078-build.zip"
+      }
+    }
+  }
+}
