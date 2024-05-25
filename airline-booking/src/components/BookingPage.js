@@ -177,7 +177,7 @@ function BookingPage({ currentUser, selectedSeats, setSelectedSeats }) {
     setLayout(updatedLayout);
     setLockedSeats([...lockedSeats, ...selectedSeats]);
 
-    axios.post('http://localhost:4000/book-seats', { seats: selectedSeats })
+    axios.post('https://jl8n1bn2y7.execute-api.eu-north-1.amazonaws.com/dev/book-seats', { seats: selectedSeats })
       .then(response => {
         setSelectedSeats([]);
         navigate('/register', { state: { selectedSeats, prices: currentPrices, currentUser, selectedDate } });
