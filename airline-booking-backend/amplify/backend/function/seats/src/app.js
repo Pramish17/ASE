@@ -22,12 +22,16 @@ const pool = mysql.createPool({
 
 const db = pool.promise();
 
-// Enable CORS for all methods
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "*");
-  next();
-});
+// Enable CORS for all methods using cors middleware
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  optionsSuccessStatus: 200
+}));
+
+// Enable CORS preflight for all routes
+app.options('*', cors());
 
 // Endpoint to fetch all seats
 app.get('/seats', async (req, res) => {

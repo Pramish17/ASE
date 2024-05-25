@@ -20,6 +20,7 @@ applications:
       phases:
         preBuild:
           commands:
+            - cd ../..
             - npm install
         build:
           commands:

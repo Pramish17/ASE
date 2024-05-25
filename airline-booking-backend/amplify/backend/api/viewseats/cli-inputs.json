@@ -21,6 +21,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/find-contiguous-blocks": {
+      "name": "/find-contiguous-blocks",
+      "lambdaFunction": "seats",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
