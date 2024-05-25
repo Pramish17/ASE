@@ -17,7 +17,7 @@ const Register = ({ onRegister }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/register', form);
+      const response = await axios.post('https://jl8n1bn2y7.execute-api.eu-north-1.amazonaws.com/dev/register', form);
       if (response.status === 201) {
         onRegister(response.data.user);
         navigate('/login', { state: { selectedSeats, prices, selectedDate } });
