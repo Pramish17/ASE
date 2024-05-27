@@ -15,7 +15,7 @@
       "function": {
         "seats": {
           "deploymentBucketName": "amplify-airlinebooking-dev-037ab-deployment",
-          "s3Key": "amplify-builds/seats-4158757a42514f78527a-build.zip"
+          "s3Key": "amplify-builds/seats-6a38714f59635a6d6f2b-build.zip"
         }
       },
       "api": {
